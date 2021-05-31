@@ -18,12 +18,20 @@
       >
         <div class="box">
           <figure class="image mb-4">
-            <img :src="product.get_thumbnail" :alt="product.name" class="image_picture"/>
+            <img
+              :src="product.get_thumbnail"
+              :alt="product.name"
+              class="image_picture"
+            />
           </figure>
           <h3 class="is-size-4">{{ product.name }}</h3>
           <p class="is-size-6 has-text-grey">R${{ product.price }}</p>
 
-          View details
+          <router-link
+            class="button is-dark mt-4"
+            :to="product.get_absolute_url"
+            >View details</router-link
+          >
         </div>
       </div>
     </div>
@@ -31,32 +39,35 @@
 </template>
 
 <script>
-import axios from 'axios'
+import axios from "axios";
 export default {
-  name: 'Home',
+  name: "Home",
   data() {
     return {
-      latestProducts: []
-    }
+      latestProducts: [],
+    };
   },
-  components: {
-  },
+  components: {},
   mounted() {
-    this.getLatestProducts()
+    this.getLatestProducts();
   },
   methods: {
-    getLatestProducts() {
-      axios
-        .get('api/v1/latest-products')
-        .then(response => {
-          this.latestProducts = response.data
+    async getLatestProducts() {
+      this.$store.commit("setIsLoading", true);
+
+      await axios
+        .get("api/v1/latest-products")
+        .then((response) => {
+          this.latestProducts = response.data;
         })
-        .catch(error => {
-          console.log(error)
-        })
-    }
+        .catch((error) => {
+          console.log(error);
+        });
+
+      this.$store.commit("setIsLoading", false);
+    },
   },
-}
+};
 </script>
 
 <style scoped>
