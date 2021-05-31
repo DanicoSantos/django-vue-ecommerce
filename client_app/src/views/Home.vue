@@ -65,12 +65,4 @@ export default {
   margin-left: -1.25rem;
   margin-right: -1.25rem;
 }
-
-.image_picture {
-  width: 300px;
-  height: 200px;
-}
-
-
-
 </style>
